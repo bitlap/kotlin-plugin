@@ -1,6 +1,6 @@
 # sbt-kotlin-plugin
 
-[![Build Status](https://github.com/bitlap/kotlin-plugin/actions/workflows/ScalaCI.yml/badge.svg)]
+![Build Status](https://github.com/bitlap/kotlin-plugin/actions/workflows/ScalaCI.yml/badge.svg)
 
 Build kotlin code using sbt
 

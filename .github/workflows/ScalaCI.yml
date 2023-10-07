@@ -37,14 +37,7 @@ jobs:
           java-version: 11
 
       - name: Run Test
-        if: success() || failure()
-        run: sbt coverage test
-
-      - name: Aggregate coverage report
-        run: sbt coverageAggregate
-
-      - name: Upload test coverage report
-        run: bash <(curl -s https://codecov.io/bash)
+        run: sbt test
   
   publish:
     runs-on: ubuntu-latest
