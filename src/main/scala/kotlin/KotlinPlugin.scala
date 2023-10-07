@@ -1,15 +1,15 @@
 package kotlin
 
-import Keys._
-import sbt._
-import sbt.Keys._
+import kotlin.Keys.*
+import sbt.{ Keys => _, _ }
+import sbt.Keys.*
 import sbt.plugins.JvmPlugin
 
-/**
- * @author pfnguyen
+/** @author
+ *    pfnguyen
  */
 object KotlinPlugin extends AutoPlugin {
-  override def trigger = allRequirements
+  override def trigger  = allRequirements
   override def requires = JvmPlugin
 
   override def projectConfigurations = KotlinInternal :: Nil
@@ -51,16 +51,17 @@ object KotlinPlugin extends AutoPlugin {
             if (BuildInfo.version != current) {
               log.warn(
                 s"UPDATE: A newer sbt-kotlin-plugin is available:" +
-                  s" $current, currently running: ${BuildInfo.version}")
+                  s" $current, currently running: ${BuildInfo.version}"
+              )
             }
           }
       }
     },
-    kotlinVersion := "1.3.50",
-    kotlincJvmTarget := "1.8",
-    kotlincOptions := Nil,
+    kotlinVersion        := "1.3.50",
+    kotlincJvmTarget     := "1.8",
+    kotlincOptions       := Nil,
     kotlincPluginOptions := Nil,
-    watchSources     ++= {
+    watchSources ++= {
       import language.postfixOps
       val kotlinSources = "*.kt" || "*.kts"
       (Compile / sourceDirectories).value.flatMap(_ ** kotlinSources get) ++
@@ -74,18 +75,23 @@ object KotlinPlugin extends AutoPlugin {
   // public to allow kotlin compile in other configs beyond Compile and Test
   val kotlinCompileSettings = List(
     unmanagedSourceDirectories += kotlinSource.value,
-    kotlincOptions := kotlincOptions.value,
-    kotlincJvmTarget := kotlincJvmTarget.value,
+    kotlincOptions       := kotlincOptions.value,
+    kotlincJvmTarget     := kotlincJvmTarget.value,
     kotlincPluginOptions := kotlincPluginOptions.value,
     kotlinCompile := Def.task {
-        KotlinCompile.compile(kotlincOptions.value,
-          kotlincJvmTarget.value,
-          kotlinVersion.value,
-          sourceDirectories.value, kotlincPluginOptions.value,
-          dependencyClasspath.value, (KotlinInternal / managedClasspath).value,
-          classDirectory.value, streams.value)
-    }.dependsOn (Compile / compile / compileInputs).value,
-    compile := (compile dependsOn kotlinCompile).value,
+      KotlinCompile.compile(
+        kotlincOptions.value,
+        kotlincJvmTarget.value,
+        kotlinVersion.value,
+        sourceDirectories.value,
+        kotlincPluginOptions.value,
+        dependencyClasspath.value,
+        (KotlinInternal / managedClasspath).value,
+        classDirectory.value,
+        streams.value
+      )
+    }.dependsOn(Compile / compile / compileInputs).value,
+    compile      := (compile dependsOn kotlinCompile).value,
     kotlinSource := sourceDirectory.value / "kotlin",
     Test / definedTests ++= KotlinTest.kotlinTests.value
   )

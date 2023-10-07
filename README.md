@@ -1,14 +1,14 @@
 # sbt-kotlin-plugin
 
-[![Build Status](https://travis-ci.org/pfn/sbt-kotlin-plugin.svg?branch=master)](https://travis-ci.org/pfn/sbt-kotlin-plugin)
+[![Build Status](https://github.com/bitlap/kotlin-plugin/actions/workflows/ScalaCI.yml/badge.svg)]
 
 Build kotlin code using sbt
 
-Current version 2.0.0
+Current version 4.0.0
 
 ## Install
 ```
-addSbtPlugin("community.flock.sbt" % "sbt-kotlin-plugin" % "3.0.1")
+addSbtPlugin("org.bitlap" % "sbt-kotlin-plugin" % "4.0.0")
 ```
 
 ## Usage
