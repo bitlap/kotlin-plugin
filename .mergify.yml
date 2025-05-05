@@ -1,0 +1,31 @@
+queue_rules:
+  - name: default
+    merge_conditions:
+      - "-draft"
+    merge_method: merge
+    update_method: rebase
+    
+pull_request_rules:
+  - name: assign and label scala-steward's PRs
+    conditions:
+      - or:
+          - "author=scala-steward"
+          - "author=scala-steward-bitlap[bot]"
+          - "author=renovate[bot]"
+    actions:
+      assign:
+        users: ["@bitlap/kotlin-plugin"]
+      label:
+        add: ["type: dependencies"]
+        
+  - name: merge Scala Steward's PRs
+    conditions:
+      - "check-success=ci"
+      - "#approved-reviews-by>=1"
+      - or:
+          - "author=scala-steward"
+          - "author=scala-steward-bitlap[bot]"
+          - "author=renovate[bot]"
+    actions:
+      queue:
+        name: default

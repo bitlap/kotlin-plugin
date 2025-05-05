@@ -3,7 +3,6 @@ addCommandAlias("check", "scalafmtCheckAll")
 
 inThisBuild(
   List(
-    organization           := "org.bitlap",
     organizationName       := "sbt-kotlin-plugin",
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository     := "https://s01.oss.sonatype.org/service/local",
@@ -16,7 +15,7 @@ inThisBuild(
         id = "jxnu-liguobin",
         name = "梦境迷离",
         email = "dreamylost@outlook.com",
-        url = url("https://blog.dreamylost.cn")
+        url = url("https://github.com/jxnu-liguobin")
       )
     )
   )
