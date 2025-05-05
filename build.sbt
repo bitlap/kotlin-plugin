@@ -1,12 +1,13 @@
+import sbt.ThisBuild
+import xerial.sbt.Sonatype.sonatypeCentralHost
+
 addCommandAlias("fmt", "scalafmt")
 addCommandAlias("check", "scalafmtCheckAll")
 
 inThisBuild(
   List(
-    organizationName       := "sbt-kotlin-plugin",
-    sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository     := "https://s01.oss.sonatype.org/service/local",
-    homepage               := Some(url("https://github.com/bitlap/kotlin-plugin")),
+    organizationName := "sbt-kotlin-plugin",
+    homepage         := Some(url("https://github.com/bitlap/kotlin-plugin")),
     licenses := List(
       "MIT" -> url("https://opensource.org/licenses/MIT")
     ),
@@ -17,7 +18,9 @@ inThisBuild(
         email = "dreamylost@outlook.com",
         url = url("https://github.com/jxnu-liguobin")
       )
-    )
+    ),
+    ThisBuild / sonatypeProfileName    := "org.bitlap",
+    ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
   )
 )
 
