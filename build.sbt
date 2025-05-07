@@ -34,6 +34,7 @@ lazy val `sbt-kotlin-plugin` = (project in file("."))
       "org.scalaz"            %% "scalaz-core" % "7.2.36"
     ),
     sbtPlugin        := true,
+    publishMavenStyle := false,
     buildInfoPackage := "kotlin",
     // scripted
     scriptedLaunchOpts ++= Seq(
