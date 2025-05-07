@@ -30,8 +30,8 @@ lazy val `sbt-kotlin-plugin` = (project in file("."))
     organization := "org.bitlap",
     scalacOptions ++= Seq("-deprecation", "-Xlint", "-feature"),
     libraryDependencies ++= Seq(
-      "io.argonaut" %% "argonaut"    % "6.3.10",
-      "org.scalaz"  %% "scalaz-core" % "7.2.36"
+      "io.github.argonaut-io" %% "argonaut"    % "6.3.11",
+      "org.scalaz"            %% "scalaz-core" % "7.2.36"
     ),
     sbtPlugin        := true,
     buildInfoPackage := "kotlin",
