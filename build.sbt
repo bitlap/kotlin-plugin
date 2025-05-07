@@ -7,7 +7,7 @@ addCommandAlias("check", "scalafmtCheckAll")
 inThisBuild(
   List(
     organization := "org.bitlap",
-    homepage         := Some(url("https://github.com/bitlap/kotlin-plugin")),
+    homepage     := Some(url("https://github.com/bitlap/kotlin-plugin")),
     licenses := List(
       "MIT" -> url("https://opensource.org/licenses/MIT")
     ),
@@ -26,16 +26,16 @@ inThisBuild(
 
 lazy val `sbt-kotlin-plugin` = (project in file("."))
   .settings(
-    name         := "sbt-kotlin-plugin",
-    moduleName         := "sbt-kotlin-plugin",
+    name       := "sbt-kotlin-plugin",
+    moduleName := "sbt-kotlin-plugin",
     scalacOptions ++= Seq("-deprecation", "-Xlint", "-feature"),
     libraryDependencies ++= Seq(
       "io.github.argonaut-io" %% "argonaut"    % "6.3.11",
       "org.scalaz"            %% "scalaz-core" % "7.2.36"
     ),
-    sbtPlugin        := true,
-    publishMavenStyle := false,
-    buildInfoPackage := "kotlin",
+    sbtPlugin                        := true,
+    sbtPluginPublishLegacyMavenStyle := false,
+    buildInfoPackage                 := "kotlin",
     // scripted
     scriptedLaunchOpts ++= Seq(
       "-Xmx1024m",
