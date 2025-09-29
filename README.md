@@ -4,7 +4,7 @@
 
 Build kotlin code using sbt.
 
-The purpose of our fork of this plugin is for the development of the Intellij IDEA plugin: [intellij-sbt-dependency-analyzer](https://github.com/bitlap/intellij-sbt-dependency-analyzer).
+The purpose of our fork of this plugin is for the development of the Intellij IDEA plugin: [sbt-dependency-analyzer](https://github.com/bitlap/sbt-dependency-analyzer).
 
 ## Install
 ```
