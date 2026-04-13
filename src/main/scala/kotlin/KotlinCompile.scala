@@ -133,23 +133,74 @@ case class KotlinStub(s: TaskStreams, kref: KotlinReflection) {
     }
 
     import java.lang.reflect.{ InvocationHandler, Proxy }
+
+    // 用于跟踪是否有错误
+    var hasErrorsFlag = false
+
     val messageCollectorInvocationHandler = new InvocationHandler {
       override def invoke(proxy: scala.Any, method: Method, args: Array[AnyRef]) = {
-        if (method.getName == "report") {
-          val Array(severity, message, location) = args
-          val l                                  = location.asInstanceOf[CompilerMessageLocation]
-          val msg = Option(l)
-            .map(x => x.getPath)
-            .fold(message.toString)(loc => loc + ": " + l.getLine + ", " + l.getColumn + ": " + message)
-          severity.toString match {
-            case "INFO"                => s.log.info(msg)
-            case "WARNING"             => s.log.warn(msg)
-            case "STRONG_WARNING"      => s.log.warn(msg)
-            case "ERROR" | "EXCEPTION" => s.log.error(msg)
-            case "OUTPUT" | "LOGGING"  => s.log.debug(msg)
-          }
+        val methodName = method.getName
+        val returnType = method.getReturnType
+
+        methodName match {
+          case "report" =>
+            if (args != null && args.length >= 2) {
+              try {
+                val severity = args(0)
+                val message  = args(1)
+                val location = if (args.length >= 3) args(2) else null
+
+                val l = Option(location).map(_.asInstanceOf[CompilerMessageLocation])
+                val msg = l
+                  .map(x => x.getPath + ": " + x.getLine + ", " + x.getColumn + ": " + message)
+                  .getOrElse(message.toString)
+
+                severity.toString match {
+                  case "INFO"           => s.log.info(msg)
+                  case "WARNING"        => s.log.warn(msg)
+                  case "STRONG_WARNING" => s.log.warn(msg)
+                  case "ERROR" | "EXCEPTION" =>
+                    s.log.error(msg)
+                    hasErrorsFlag = true
+                  case "OUTPUT" | "LOGGING" => s.log.debug(msg)
+                  case _                    => s.log.debug(s"[${severity}] $msg")
+                }
+              } catch {
+                case e: Exception =>
+                  s.log.debug(s"Error processing message: ${e.getMessage}")
+              }
+            }
+            getDefaultValue(returnType)
+
+          case "hasErrors" =>
+            java.lang.Boolean.valueOf(hasErrorsFlag)
+
+          case _ =>
+            getDefaultValue(returnType)
         }
-        null
+      }
+
+      // 根据返回类型返回合适的默认值
+      private def getDefaultValue(returnType: Class[_]): AnyRef = {
+        if (returnType == classOf[Boolean] || returnType == classOf[java.lang.Boolean]) {
+          java.lang.Boolean.FALSE
+        } else if (returnType == classOf[Int] || returnType == classOf[java.lang.Integer]) {
+          java.lang.Integer.valueOf(0)
+        } else if (returnType == classOf[Long] || returnType == classOf[java.lang.Long]) {
+          java.lang.Long.valueOf(0L)
+        } else if (returnType == classOf[Double] || returnType == classOf[java.lang.Double]) {
+          java.lang.Double.valueOf(0.0)
+        } else if (returnType == classOf[Float] || returnType == classOf[java.lang.Float]) {
+          java.lang.Float.valueOf(0.0f)
+        } else if (returnType == classOf[String]) {
+          ""
+        } else if (returnType.isPrimitive) {
+          // 其他基本类型的默认值
+          java.lang.Byte.valueOf(0.toByte)
+        } else {
+          // 引用类型返回 null
+          null
+        }
       }
     }
 
