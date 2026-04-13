@@ -52,7 +52,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - uses: coursier/cache-action@v6
       - name: Test
-        run: sbt test
+        run: sbt scripted
   
   publish:
     runs-on: ubuntu-latest
