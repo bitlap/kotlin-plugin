@@ -1,1 +1,1 @@
-addSbtPlugin("community.flock.sbt" % "sbt-kotlin-plugin" % sys.props("plugin.version"))
+addSbtPlugin("org.bitlap" % "sbt-kotlin-plugin" % sys.props("plugin.version"))
